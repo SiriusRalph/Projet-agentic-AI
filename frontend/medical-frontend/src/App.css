@@ -1,0 +1,209 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  color: #2d3748;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #2b6cb0, #2c7a7b);
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.app-header p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.app-main {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-footer {
+  background: #fed7d7;
+  color: #c53030;
+  text-align: center;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  color: #2b6cb0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.card h3 {
+  color: #2c7a7b;
+  margin-bottom: 12px;
+}
+
+/* Inputs */
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #2b6cb0;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.btn-primary {
+  background: #2b6cb0;
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: #2c5282;
+}
+
+.btn-success {
+  background: #276749;
+  color: white;
+  width: 100%;
+}
+
+.btn-success:hover {
+  background: #22543d;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Progress bar */
+.progress-bar {
+  background: #e2e8f0;
+  border-radius: 99px;
+  height: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #2b6cb0, #2c7a7b);
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.badge-blue { background: #ebf8ff; color: #2b6cb0; }
+.badge-green { background: #f0fff4; color: #276749; }
+.badge-orange { background: #fffaf0; color: #c05621; }
+
+/* Summary boxes */
+.summary-box {
+  background: #f7fafc;
+  border-left: 4px solid #2b6cb0;
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.interim-box {
+  background: #fffaf0;
+  border-left: 4px solid #ed8936;
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.report-box {
+  background: #f0fff4;
+  border-left: 4px solid #276749;
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #718096;
+  font-style: italic;
+}
+
+.error {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
