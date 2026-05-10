@@ -16,18 +16,14 @@ function QuestionsScreen({ consultationData, goTo }) {
       setError('Veuillez entrer une réponse avant de continuer.');
       return;
     }
-
     setLoading(true);
     setError('');
-
     try {
       const response = await axios.post(`${API}/consultation/resume`, {
         thread_id: threadId,
         answer: answer
       });
-
       const data = response.data;
-
       if (data.status === 'waiting_physician') {
         goTo('physician', {
           diagnosticSummary: data.diagnostic_summary,
@@ -50,35 +46,35 @@ function QuestionsScreen({ consultationData, goTo }) {
   return (
     <div>
       <div className="card">
-        <h2>💬 Questions du diagnostic</h2>
-
-        <div className="progress-label">
-          Question {questionNum} sur 5
-        </div>
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${progress}%` }}
-          />
+        <div className="card-header">
+          <div className="card-icon">🩺</div>
+          <div>
+            <div className="card-title">Agent de diagnostic</div>
+            <div className="card-desc">Répondez aux questions pour établir la synthèse clinique</div>
+          </div>
         </div>
 
-        <div className="summary-box">
-          🩺 {question}
+        <div className="progress-wrap">
+          <div className="progress-top">
+            <span className="progress-label">Progression</span>
+            <span className="progress-count">Question {questionNum} / 5</span>
+          </div>
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progress}%` }} />
+          </div>
         </div>
 
+        <div className="question-box">{question}</div>
+
+        <div className="section-label">Votre réponse</div>
         <textarea
           rows={4}
-          placeholder="Votre réponse..."
+          placeholder="Décrivez en détail..."
           value={answer}
           onChange={e => setAnswer(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter' && e.ctrlKey) submitAnswer();
-          }}
+          onKeyDown={e => { if (e.key === 'Enter' && e.ctrlKey) submitAnswer(); }}
         />
-
-        <p style={{ fontSize: '0.8rem', color: '#a0aec0', marginTop: '6px' }}>
-          Ctrl+Entrée pour envoyer
-        </p>
+        <p className="hint">Ctrl+Entrée pour envoyer rapidement</p>
 
         {error && <div className="error">{error}</div>}
 
@@ -87,7 +83,7 @@ function QuestionsScreen({ consultationData, goTo }) {
           onClick={submitAnswer}
           disabled={loading}
         >
-          {loading ? '⏳ Analyse en cours...' : 'Envoyer la réponse →'}
+          {loading ? '⏳ Traitement en cours...' : 'Envoyer →'}
         </button>
       </div>
     </div>

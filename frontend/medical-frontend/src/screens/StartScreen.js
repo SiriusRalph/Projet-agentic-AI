@@ -10,18 +10,15 @@ function StartScreen({ goTo }) {
 
   const startConsultation = async () => {
     if (!patientCase.trim()) {
-      setError('Veuillez décrire votre cas avant de continuer.');
+      setError('Veuillez décrire votre situation avant de continuer.');
       return;
     }
-
     setLoading(true);
     setError('');
-
     try {
       const response = await axios.post(`${API}/consultation/start`, {
         patient_case: patientCase
       });
-
       const data = response.data;
       goTo('questions', {
         threadId: data.thread_id,
@@ -29,7 +26,7 @@ function StartScreen({ goTo }) {
         questionCount: data.question_count
       });
     } catch (err) {
-      setError('Erreur de connexion au serveur. Vérifiez que le backend est lancé.');
+      setError('Impossible de contacter le serveur. Vérifiez que le backend est lancé.');
     } finally {
       setLoading(false);
     }
@@ -38,15 +35,18 @@ function StartScreen({ goTo }) {
   return (
     <div>
       <div className="card">
-        <h2>👤 Nouveau cas patient</h2>
-        <p style={{ marginBottom: '16px', color: '#718096' }}>
-          Décrivez brièvement votre situation médicale. 
-          Un agent de diagnostic vous posera ensuite 5 questions.
-        </p>
+        <div className="card-header">
+          <div className="card-icon">📋</div>
+          <div>
+            <div className="card-title">Nouvelle consultation</div>
+            <div className="card-desc">Décrivez votre situation médicale pour commencer</div>
+          </div>
+        </div>
 
+        <div className="section-label">Description du cas patient</div>
         <textarea
           rows={5}
-          placeholder="Ex: J'ai mal à la gorge et de la fièvre depuis hier soir..."
+          placeholder="Ex : J'ai mal à la gorge et de la fièvre depuis hier soir, j'ai du mal à avaler..."
           value={patientCase}
           onChange={e => setPatientCase(e.target.value)}
         />
@@ -58,19 +58,37 @@ function StartScreen({ goTo }) {
           onClick={startConsultation}
           disabled={loading}
         >
-          {loading ? '⏳ Démarrage en cours...' : '🚀 Démarrer la consultation'}
+          {loading ? '⏳ Initialisation...' : 'Démarrer la consultation →'}
         </button>
       </div>
 
       <div className="card">
-        <h3>ℹ️ Comment ça fonctionne ?</h3>
-        <ol style={{ paddingLeft: '20px', lineHeight: '2' }}>
-          <li>Vous décrivez votre cas initial</li>
-          <li>L'agent vous pose 5 questions</li>
-          <li>Le système génère une synthèse clinique</li>
-          <li>Un médecin traitant valide et propose un traitement</li>
-          <li>Un rapport final est généré</li>
-        </ol>
+        <div className="card-header">
+          <div className="card-icon">ℹ️</div>
+          <div>
+            <div className="card-title">Déroulement</div>
+            <div className="card-desc">Comment fonctionne le système</div>
+          </div>
+        </div>
+
+        <div className="info-grid">
+          <div className="info-card">
+            <div className="info-card-num">5</div>
+            <div className="info-card-label">Questions posées</div>
+          </div>
+          <div className="info-card">
+            <div className="info-card-num">IA</div>
+            <div className="info-card-label">Synthèse générée</div>
+          </div>
+          <div className="info-card">
+            <div className="info-card-num">👨‍⚕️</div>
+            <div className="info-card-label">Médecin valide</div>
+          </div>
+        </div>
+
+        <div className="disclaimer">
+          ⚠️ Ce système ne remplace pas une consultation médicale. Exercice académique uniquement.
+        </div>
       </div>
     </div>
   );

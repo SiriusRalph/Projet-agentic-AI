@@ -15,22 +15,16 @@ function PhysicianScreen({ consultationData, goTo }) {
       setError('Veuillez entrer un traitement ou une conduite à tenir.');
       return;
     }
-
     setLoading(true);
     setError('');
-
     try {
       const response = await axios.post(`${API}/consultation/physician`, {
         thread_id: threadId,
         physician_treatment: treatment
       });
-
-      const data = response.data;
-      goTo('report', {
-        finalReport: data.final_report
-      });
+      goTo('report', { finalReport: response.data.final_report });
     } catch (err) {
-      setError('Erreur lors de la soumission de la revue médicale.');
+      setError('Erreur lors de la soumission.');
     } finally {
       setLoading(false);
     }
@@ -39,32 +33,37 @@ function PhysicianScreen({ consultationData, goTo }) {
   return (
     <div>
       <div className="card">
-        <h2>👨‍⚕️ Revue du médecin traitant</h2>
-        <span className="badge badge-orange">
-          ⏳ En attente de validation médicale
-        </span>
-
-        <h3>Synthèse clinique préliminaire</h3>
-        <div className="summary-box">
-  <ReactMarkdown>{diagnosticSummary}</ReactMarkdown>
-</div>
-
-        <h3>Recommandation intermédiaire</h3>
-        <div className="interim-box">
-          {interimCare}
+        <div className="card-header">
+          <div className="card-icon">👨‍⚕️</div>
+          <div>
+            <div className="card-title">Revue du médecin traitant</div>
+            <div className="card-desc">Validation humaine requise avant le rapport final</div>
+          </div>
         </div>
+
+        <span className="badge badge-orange">⏳ En attente de validation médicale</span>
+
+        <div className="section-label">Synthèse clinique préliminaire</div>
+        <div className="info-box">
+          <ReactMarkdown>{diagnosticSummary}</ReactMarkdown>
+        </div>
+
+        <div className="section-label">Recommandation intermédiaire</div>
+        <div className="warning-box">{interimCare}</div>
       </div>
 
       <div className="card">
-        <h3>📝 Traitement / Conduite à tenir</h3>
-        <p style={{ color: '#718096', marginBottom: '12px' }}>
-          En tant que médecin traitant, proposez un traitement 
-          ou une conduite à tenir pour ce patient.
-        </p>
+        <div className="card-header">
+          <div className="card-icon">✍️</div>
+          <div>
+            <div className="card-title">Traitement / Conduite à tenir</div>
+            <div className="card-desc">En tant que médecin, proposez votre recommandation</div>
+          </div>
+        </div>
 
         <textarea
           rows={5}
-          placeholder="Ex: Prescrire Amoxicilline 1g x2/jour pendant 7 jours, Paracétamol 1g toutes les 6h, repos..."
+          placeholder="Ex: Amoxicilline 1g x2/jour pendant 7 jours, Paracétamol 1g toutes les 6h, repos..."
           value={treatment}
           onChange={e => setTreatment(e.target.value)}
         />
@@ -76,7 +75,7 @@ function PhysicianScreen({ consultationData, goTo }) {
           onClick={submitReview}
           disabled={loading}
         >
-          {loading ? '⏳ Génération du rapport...' : '✅ Valider et générer le rapport final'}
+          {loading ? '⏳ Génération du rapport...' : '✅ Valider et générer le rapport'}
         </button>
       </div>
     </div>

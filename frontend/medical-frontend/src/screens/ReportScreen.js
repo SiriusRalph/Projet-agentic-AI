@@ -4,38 +4,34 @@ import ReactMarkdown from 'react-markdown';
 function ReportScreen({ consultationData }) {
   const { finalReport } = consultationData;
 
-  const printReport = () => {
-    window.print();
-  };
-
   return (
     <div>
       <div className="card">
-        <h2>📋 Rapport médical final</h2>
+        <div className="card-header">
+          <div className="card-icon">📄</div>
+          <div>
+            <div className="card-title">Rapport médical final</div>
+            <div className="card-desc">Consultation terminée avec succès</div>
+          </div>
+        </div>
+
         <span className="badge badge-green">✅ Consultation terminée</span>
 
-        <div className="report-box">
+        <div className="section-label">Contenu du rapport</div>
+        <div className="success-box">
           <ReactMarkdown>{finalReport}</ReactMarkdown>
         </div>
 
         <button
           className="btn btn-primary"
-          onClick={printReport}
-          style={{ marginTop: '20px' }}
+          onClick={() => window.print()}
         >
           🖨️ Imprimer / Sauvegarder le rapport
         </button>
       </div>
 
-      <div className="card">
-        <p style={{ 
-          textAlign: 'center', 
-          color: '#c53030', 
-          fontWeight: '600' 
-        }}>
-          ⚠️ Ce système ne remplace pas une consultation médicale.
-          Ce rapport est généré à titre académique uniquement.
-        </p>
+      <div className="disclaimer">
+        ⚠️ Ce système ne remplace pas une consultation médicale. Rapport généré à titre académique uniquement.
       </div>
     </div>
   );
