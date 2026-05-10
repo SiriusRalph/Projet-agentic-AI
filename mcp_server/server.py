@@ -1,17 +1,26 @@
-from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
-# Create the MCP server
-mcp = FastMCP("Medical Tools Server")
+app = FastAPI(title="MCP Medical Tools Server")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-@mcp.tool()
-def recommend_interim_care(symptoms_summary: str) -> str:
-    """
-    Generates a preliminary interim care recommendation
-    based on the patient's symptoms.
-    This is NOT a medical diagnosis.
-    """
-    return f"""
+@app.get("/health")
+def health():
+    return {"status": "ok", "server": "MCP Medical Tools"}
+
+
+@app.post("/tools/recommend_interim_care")
+def recommend_interim_care(body: dict):
+    symptoms_summary = body.get("symptoms_summary", "")
+    result = f"""
     ⚠️ Ce système ne remplace pas une consultation médicale.
     
     Recommandation intermédiaire basée sur : {symptoms_summary}
@@ -23,13 +32,12 @@ def recommend_interim_care(symptoms_summary: str) -> str:
     - Consulter rapidement en cas d'aggravation
     - Ne pas automédication sans avis médical
     """
+    return {"result": result}
 
 
-@mcp.tool()
-def get_red_flags(symptoms: str) -> str:
-    """
-    Checks for red flag symptoms that require immediate medical attention.
-    """
+@app.post("/tools/get_red_flags")
+def get_red_flags(body: dict):
+    symptoms = body.get("symptoms", "")
     red_flags = [
         "difficulté à respirer",
         "douleur thoracique",
@@ -40,28 +48,22 @@ def get_red_flags(symptoms: str) -> str:
         "paralysie",
         "fièvre très élevée"
     ]
-
-    found_flags = [
-        flag for flag in red_flags
-        if flag.lower() in symptoms.lower()
-    ]
+    found_flags = [f for f in red_flags if f.lower() in symptoms.lower()]
 
     if found_flags:
-        return f"""
+        result = f"""
         🚨 SIGNES D'ALARME DÉTECTÉS : {', '.join(found_flags)}
-        
         ⚠️ Consultation médicale URGENTE recommandée.
-        Ces symptômes nécessitent une attention médicale immédiate.
         Appelez le 15 (SAMU) ou rendez-vous aux urgences.
         """
     else:
-        return """
+        result = """
         ✅ Aucun signe d'alarme immédiat détecté.
         Surveillance recommandée et consultation si aggravation.
         """
+    return {"result": result}
 
 
 if __name__ == "__main__":
-    import uvicorn
-    print("MCP Server running on http://127.0.0.1:8001")
-    uvicorn.run(mcp.sse_app(), host="127.0.0.1", port=8001)
+    print("MCP Medical Tools Server running on http://127.0.0.1:8001")
+    uvicorn.run(app, host="127.0.0.1", port=8001)
