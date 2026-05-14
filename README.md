@@ -218,6 +218,19 @@ Cas initial : "J'ai un léger rhume depuis ce matin, nez qui coule"
 - Validation humaine obligatoire avant le rapport final
 
 ---
+## Captures d'écran
+
+### Écran 1 — Saisie du cas patient
+![Écran 1](screenshots/screen1-accueil.png)
+
+### Écran 2 — Questions / Réponses
+![Écran 2](screenshots/screen2-questions.png)
+
+### Écran 3 — Revue du médecin
+![Écran 3](screenshots/screen3-medecin.png)
+
+### Écran 4 — Rapport final
+![Écran 4](screenshots/screen4-rapport.png)
 
 ## Auteur
 
